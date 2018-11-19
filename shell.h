@@ -5,3 +5,5 @@
 #include <sys/stat.h>
 #include <time.h>
 #include <string.h>
+
+char ** parse_args( char * line );
