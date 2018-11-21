@@ -4,6 +4,9 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <time.h>
+#include <errno.h>
 #include <string.h>
 
-void parse_args( char * line);
+void parse_command(char *line);
+
+char** parse_args( char * line);
