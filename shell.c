@@ -4,9 +4,15 @@ char ** parse_args( char * line ) {
   char * ptr = line;
   char ** array = calloc(256, sizeof(char *)); //mem issues
   int index = 0;
+
+  // check to see if there is a blank space right before the first command.
+  if (strcmp((strstr(ptr, " ")), ptr) == 0){
+    ptr ++;
+  }
+
   while (ptr && index < 256) {
-    // printf("parse_args ptr: %s index: %d\n", ptr, index);
     array[index] = strsep(&ptr, " ");
+    // printf("parse_args ptr: %s index: %d\n", ptr, index);
     index++;
   }
   array[index] = NULL;
@@ -16,9 +22,11 @@ char ** parse_args( char * line ) {
 void parse_command(char *line){
   char *ptr = line;
   line = strsep(&ptr, ";");
-  printf("%s\n", ptr);
+  // printf("%s\n", ptr);
   char ** args;
   int times = 0; //tracks how the program should behave at the beginning and end
+
+  // char *ptr2 = ptr + 1;
 
   while (ptr != NULL){
     // printf("%s time: %d\n", ptr, times);
