@@ -17,7 +17,7 @@ void parse_command(char *line){
   line = strsep(&ptr, ";");
   printf("%s\n", ptr);
   char ** args;
-  
+
   while (ptr != NULL){
     args = parse_args(line);
 
@@ -34,9 +34,9 @@ void parse_command(char *line){
     wait(&status);
 
 
-    printf("%s\n", ptr);
+    printf("ptr b4 : %s\n", ptr);
     line = strsep(&ptr, ";");
-    printf("%s\n", ptr);
+    printf("ptr after: %s\n", ptr);
   }
   args = parse_args(line);
   printf("%s %s %s\n", args[0], args[1], args[2]);
