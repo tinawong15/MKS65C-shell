@@ -22,16 +22,21 @@ char ** parse_args( char * line ) {
   char * ptr = line;
   char ** array = calloc(256, sizeof(char *)); //mem issues
   int index = 0;
-
+  // printf("ptr:%s\n", ptr);
+  // if there is no white space
+  if (strstr(ptr, " ") == NULL){
+    array[0] = line;
+    return array;
+  }
   // check to see if there is a blank space right before the first command.
-  if (strcmp((strstr(ptr, " ")), ptr) == 0){
+  if (strcmp(strstr(ptr, " "), ptr) == 0){
     ptr ++;
   }
-
+  // printf("ptr:%s\n", ptr);
   while (ptr && index < 256) {
     // deal with multiple semicolons by strsepping them too
     array[index] = strsep(&ptr, " ;");
-    // printf("parse_args ptr: %s index: %d\n", ptr, index);
+    //printf("parse_args ptr: %s index: %d\n", ptr, index);
     index++;
   }
   array[index] = NULL;
@@ -45,7 +50,6 @@ void parse_command(char *line){
   line = strsep(&ptr, ";");
   char ** args;
   int times = 0; //tracks how the program should behave at the beginning and end
-
   while (ptr != NULL){
     // printf("%s time: %d\n", ptr, times);
     if (times == 0){
@@ -70,7 +74,6 @@ void parse_command(char *line){
       args[length] = NULL;
       // printf("Args[0]: %s args[1]: %s agrs[2]: %s\n\n", args[0], args[1], args[2]);
       execvp(args[0], args); //run ze process
-      return;
     }
     // wait for the child process to finish before proceeding
     int status;
@@ -82,5 +85,18 @@ void parse_command(char *line){
     }
     // printf("ptr after: %s\n", ptr);
     times++;
+  }
+  if (times == 0){
+    int id = fork();
+    // printf("%s\n", line);
+    // printf("id: %d pid: %d\n", id, getpid());
+    if (id == 0){
+      args = parse_args(line);
+      // printf("%s\n", line);
+      // printf("id: %d pid: %d\n", id, getpid());
+
+      //printf("Args[0]: %s args[1]: %s agrs[2]: %s\n\n", args[0], args[1], args[2]);
+      execvp(args[0], args); //run ze process
+    }
   }
 }
