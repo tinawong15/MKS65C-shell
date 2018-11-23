@@ -6,6 +6,8 @@
 #include <time.h>
 #include <errno.h>
 #include <string.h>
+#include <sys/wait.h>
+#include <signal.h>
 
 void parse_command(char *line);
 
