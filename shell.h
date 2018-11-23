@@ -11,6 +11,6 @@
 
 int arrlength(char ** array);
 
-void parse_command(char *line);
+int parse_command(char *line);
 
 char** parse_args( char * line);

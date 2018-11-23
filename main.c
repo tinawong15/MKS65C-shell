@@ -24,7 +24,9 @@ int main(){
     // printf("%s\n", command);
     // printf("%c\n", command[len-1]);
     // printf("Comparison with line: %d\n", strcmp(line, command));
-    parse_command(line);
+    if (parse_command(line) == -1){
+      return 0;
+    }
    }
   return 0;
 }

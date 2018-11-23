@@ -36,14 +36,14 @@ char ** parse_args( char * line ) {
   while (ptr && index < 256) {
     // deal with multiple semicolons by strsepping them too
     array[index] = strsep(&ptr, " ;");
-    //printf("parse_args ptr: %s index: %d\n", ptr, index);
+    // printf("parse_args ptr: %s index: %d\n", ptr, index);
     index++;
   }
   array[index] = NULL;
   return array;
 }
 
-void parse_command(char *line){
+int parse_command(char *line){
   char *ptr = line;
   char expendable_ptr[256]; // prevents parse_args from changing the main ptr
 
@@ -63,22 +63,33 @@ void parse_command(char *line){
       // printf("curr prt 2: %s\n", ptr);
     }
     // printf("Args[0]: %s args[1]: %s agrs[2]: %s\n", args[0], args[1], args[2]);
-
-    // have a child process run the comman
-    int id = fork();
-    // printf("id: %d pid: %d\n", id, getpid());
-    if (id == 0){
-      int length = arrlength(args);
-      // printf("length: %d args[%d]: %s\n", length, length-1,args[length-1] );
-      // keep in mind that the args array is actually of length 256 -- placing a NULL at length turns it into the array size we want
-      args[length] = NULL;
-      // printf("Args[0]: %s args[1]: %s agrs[2]: %s\n\n", args[0], args[1], args[2]);
-      execvp(args[0], args); //run ze process
+    // if exit
+    if (strcmp(args[0], "exit") == 0) {
+      return -1;
     }
-    // wait for the child process to finish before proceeding
-    int status;
-    wait(&status);
-
+    // if cd
+    else if (strcmp(args[0], "cd") == 0) {
+      if(chdir(args[1]) == -1) {
+        printf("%s\n",strerror(errno));
+      }
+    }
+    // otherwise proceed
+    else {
+      // have a child process run the command
+      int id = fork();
+      // printf("id: %d pid: %d\n", id, getpid());
+      if (id == 0){
+        int length = arrlength(args);
+        // printf("length: %d args[%d]: %s\n", length, length-1,args[length-1] );
+        // keep in mind that the args array is actually of length 256 -- placing a NULL at length turns it into the array size we want
+        args[length] = NULL;
+        // printf("Args[0]: %s args[1]: %s agrs[2]: %s\n\n", args[0], args[1], args[2]);
+        execvp(args[0], args); //run ze process
+      }
+      // wait for the child process to finish before proceeding
+      int status;
+      wait(&status);
+    }
     // printf("ptr b4 : %s\n", ptr);
     if (times != 0){
       line = strsep(&ptr, ";");
@@ -86,17 +97,19 @@ void parse_command(char *line){
     // printf("ptr after: %s\n", ptr);
     times++;
   }
+  // if a command w/o whitespace exists
   if (times == 0){
+    args = parse_args(line);
+    if (strcmp(line, "exit") == 0) {
+      return -1;
+    }
     int id = fork();
     // printf("%s\n", line);
     // printf("id: %d pid: %d\n", id, getpid());
     if (id == 0){
-      args = parse_args(line);
-      // printf("%s\n", line);
-      // printf("id: %d pid: %d\n", id, getpid());
-
-      //printf("Args[0]: %s args[1]: %s agrs[2]: %s\n\n", args[0], args[1], args[2]);
       execvp(args[0], args); //run ze process
+      //printf("Args[0]: %s args[1]: %s agrs[2]: %s\n\n", args[0], args[1], args[2]);
     }
   }
+  return 0;
 }
