@@ -9,6 +9,8 @@
 #include <sys/wait.h>
 #include <signal.h>
 
+int arrlength(char ** array);
+
 void parse_command(char *line);
 
 char** parse_args( char * line);

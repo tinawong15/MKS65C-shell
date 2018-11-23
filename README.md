@@ -3,13 +3,19 @@
 ---
 
 ## TODO:
-- Read a line at a time, parse the line to separate the command from its arguments. It should then fork and exec the command.
-- Read and separate multiple commands on one line with ;
-- Implement simple redirection using > (redirecting stdout) and < (redirecting stdin)
-- Implement simple pipes
+- [ ] Read a line at a time, parse the line to separate the command from its arguments. It should then fork and exec the command.
+- [X] Read and separate multiple commands on one line with ;
+- [ ] Implement simple redirection using > (redirecting stdout) and < (redirecting stdin)
+- [ ] Implement simple pipes
 
 ## Features
+- Unlimited command chains using semicolons
 
 ## Attempted Features
 
 ## Bugs
+
+## Function Headers
+- `int arrlength(char ** array)`
+- `void parse_command(char *line)`
+- `char** parse_args( char * line)`
