@@ -5,7 +5,7 @@
 ## TODO:
 - [X] Read a line at a time, parse the line to separate the command from its arguments. It should then fork and exec the command.
 - [X] Read and separate multiple commands on one line with ;
-- [ ] Can change dirs and exit the shell
+- [X] Can change dirs and exit the shell
 - [ ] Implement simple redirection using > (redirecting stdout) and < (redirecting stdin)
 - [ ] Implement simple pipes
 
@@ -16,6 +16,7 @@
 
 ## Bugs
 - commands do not work if there are no spaces in between the commands
+- /usr/bin/cd states that there is no such dir, but the dir changes accordingly if the call was valid
 
 ## Function Headers
 - `int arrlength(char ** array)`
