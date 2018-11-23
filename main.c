@@ -1,7 +1,7 @@
 # include "shell.h"
 
 int main(int argc, char const *argv[]) {
-  char line [100] = "ls -l ; echo hello";
+  char line [100] = "ls -l ; echo hello; echo tina; ls -l ; echo tina wong is a cs god";
   parse_command(line);
   int i;
   // for (i = 0; i < 4; i++){
