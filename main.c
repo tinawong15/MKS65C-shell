@@ -1,7 +1,7 @@
 # include "shell.h"
 
 int main(){
-  char line [100] = "ls -l ; echo hello";// ; echo tina; ls -l ; echo tina wong is a cs god";
+  char line [256] = "ls -l ; echo hello";// ; echo tina; ls -l ; echo tina wong is a cs god";
   // char line [100] = "ls -l";
   // parse_command(line);
   char command[256];
@@ -20,10 +20,11 @@ int main(){
     // printf("errorno: %d\n", error);
     len = strlen(command);
     command[len-1] = 0;
+    strcpy(line, command);
     // printf("%s\n", command);
     // printf("%c\n", command[len-1]);
-    printf("Comparison with line: %d\n", strcmp(line, command));
-    parse_command(command);
+    // printf("Comparison with line: %d\n", strcmp(line, command));
+    parse_command(line);
    }
   return 0;
 }
