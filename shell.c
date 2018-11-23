@@ -4,11 +4,16 @@
 int arrlength(char ** array){
   /*
    * Helper fxn that computes the length of an array.
+   * NOTE: this is a special length —- if whitespace exists in any of the indices, the fxn exits
    */
    int index = 0;
-   int total = 1;
-   while(array[index++] != NULL){
+   int total = 0; //account for any whitespace at the end
+   while(array[index] != NULL){
+     if (strcmp(array[index], "") == 0){
+       return total;
+     }
      total++;
+     index++;
    }
    return total;
 }
@@ -60,8 +65,10 @@ void parse_command(char *line){
     // printf("id: %d pid: %d\n", id, getpid());
     if (id == 0){
       int length = arrlength(args);
-    //  printf("length: %d\n", length);
-      args[2] = NULL;
+      // printf("length: %d args[%d]: %s\n", length, length-1,args[length-1] );
+      // keep in mind that the args array is actually of length 256 -- placing a NULL at length turns it into the array size we want
+      args[length] = NULL;
+      // printf("Args[0]: %s args[1]: %s agrs[2]: %s\n\n", args[0], args[1], args[2]);
       execvp(args[0], args); //run ze process
       return;
     }
