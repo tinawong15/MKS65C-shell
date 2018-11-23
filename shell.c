@@ -103,6 +103,11 @@ int parse_command(char *line){
     if (strcmp(line, "exit") == 0) {
       return -1;
     }
+    else if (strcmp(args[0], "cd") == 0) {
+      if(chdir(args[1]) == -1) {
+        printf("%s\n",strerror(errno));
+      }
+    }
     int id = fork();
     // printf("%s\n", line);
     // printf("id: %d pid: %d\n", id, getpid());
