@@ -14,6 +14,7 @@
 ## Attempted Features
 
 ## Bugs
+- shell executes the commands out of order if the commands are on one line and separated by semicolons
 
 ## Function Headers
 - `int arrlength(char ** array)`

@@ -22,7 +22,7 @@ int main(){
     command[len-1] = 0;
     // printf("%s\n", command);
     // printf("%c\n", command[len-1]);
-    //printf("Comparison with line: %d\n", strcmp(line, command));
+    printf("Comparison with line: %d\n", strcmp(line, command));
     parse_command(command);
    }
   return 0;
