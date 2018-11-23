@@ -8,6 +8,8 @@
 #include <string.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include <sys/types.h>
+#include <pwd.h>
 
 int arrlength(char ** array);
 

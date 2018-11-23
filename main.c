@@ -13,11 +13,12 @@ int main(){
   hostname[255] = '\0';
   gethostname(hostname, 255);
   getcwd(cwd, sizeof(cwd));
-  printf("%s:%s\n", hostname, cwd);
+  struct passwd *p = getpwuid(getuid());
   int len = 0;
   while(1) {
+    getcwd(cwd, sizeof(cwd));
+    printf("%s:%s %s$ ", hostname, cwd, p->pw_name);
     fgets(command, 256, stdin);
-    // printf("errorno: %d\n", error);
     len = strlen(command);
     command[len-1] = 0;
     strcpy(line, command);
