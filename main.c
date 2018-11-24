@@ -15,9 +15,15 @@ int main(){
   getcwd(cwd, sizeof(cwd));
   struct passwd *p = getpwuid(getuid());
   int len = 0;
+  char *cwd_split;
   while(1) {
     getcwd(cwd, sizeof(cwd));
-    printf("%s:%s %s$ ", hostname, cwd, p->pw_name);
+    cwd_split = cwd;
+    while( strstr(cwd_split , "/") != NULL) {
+      // printf("cwd split: %s\n", cwd_split);
+      strsep(&cwd_split, "/");
+    }
+    printf("(shell) %s:%s %s$ ", hostname, cwd_split, p->pw_name);
     fgets(command, 256, stdin);
     len = strlen(command);
     command[len-1] = 0;
