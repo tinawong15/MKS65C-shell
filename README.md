@@ -16,9 +16,6 @@
 ## Attempted Features
 
 ## Bugs
-- commands do not work if there are no spaces in between the commands
-- /usr/bin/cd states that there is no such dir, but the dir changes accordingly if the call was valid
-- the terminal prompt does not show up correctly when only one command is on a line
 
 ## Function Headers
 - `int arrlength(char ** array)`
