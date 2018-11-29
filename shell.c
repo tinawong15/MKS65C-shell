@@ -52,7 +52,7 @@ char ** parse_args( char * line, char * delimiter ) {
       // printf("Back pointer: %s Ptr: %s\n", back_ptr, ptr);
       back_ptr = strip(back_ptr);
       array = parse_args(back_ptr, " ");
-      printf("Array[0]: %s array[1]: %s array[2]: %s\n", array[0], array[1], array[2]);
+      // printf("Array[0]: %s array[1]: %s array[2]: %s\n", array[0], array[1], array[2]);
 
       // Account for exit and cd
       if (strcmp(array[0], "exit") == 0) {
@@ -102,12 +102,12 @@ char * strip( char * string){
      while(strcmp(strstr(start_ptr, " "), start_ptr) == 0){
        start_ptr++;
      }
+     //trailing whitespace
+     while(arr_string[end_index] ==  ' '){
+       end_index--;
+     }
    }
 
-   //trailing whitespace
-   while(arr_string[end_index] ==  ' '){
-     end_index--;
-   }
    // printf("String: %s\n", start_ptr);
 
    arr_string[end_index+1] = 0;
