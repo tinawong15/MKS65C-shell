@@ -30,9 +30,7 @@ int main(){
     len = strlen(command);
     command[len-1] = 0;
     strcpy(line, command);
-    // printf("%s\n", command);
-    // printf("%c\n", command[len-1]);
-    // printf("Comparison with line: %d\n", strcmp(line, command));
+
     if (parse_args(line, ";") == NULL){
       return 0;
     }

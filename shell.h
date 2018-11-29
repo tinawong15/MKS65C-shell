@@ -11,12 +11,6 @@
 #include <sys/types.h>
 #include <pwd.h>
 
-// int arrlength(char ** array);
-//
-// int parse_command(char *line);
-//
-// char** parse_args( char * line);
-
 char ** parse_args( char * line, char * delimiter );
 
 char * strip( char * string);
