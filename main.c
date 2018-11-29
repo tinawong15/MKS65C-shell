@@ -12,6 +12,8 @@ int main(){
   getcwd(cwd, sizeof(cwd));
   hostname[255] = '\0';
   gethostname(hostname, 255);
+  char *hostname_split = hostname;
+  strsep(&hostname_split, ".");
   getcwd(cwd, sizeof(cwd));
   struct passwd *p = getpwuid(getuid());
   int len = 0;
