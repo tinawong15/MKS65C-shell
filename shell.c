@@ -36,10 +36,13 @@ char ** parse_args( char * line, char * delimiter ) {
         // have a child process run the command
         id = fork();
         // printf("Array[0]: %s array[1]: %s array[2]: %s\n", array[0], array[1], array[2]);
+
+        // increment to find if there is a redirect symbol in the command
         int index;
-        for(index = 0; array[index] != NULL && strcmp(array[index], ">") != 0; index++);
+        for(index = 0; array[index] != NULL && (strcmp(array[index], ">") != 0 && strcmp(array[index], ">>") != 0 && strcmp(array[index], "<") != 0 && strcmp(array[index], "<<") != 0); index++);
 
         if (id == 0){
+          // if it is a redirection command, leave it to respective functions
           if(array[index] != NULL && (strstr(array[index], ">") || (strstr(array[index], ">>")))) {
             redirect_stdout(array, index);
           }
@@ -97,10 +100,15 @@ char * strip( char * string){
 
 
 void redirect_stdout(char ** arr, int index) {
+  /*
+   * Takes in the command and executes redirection into a text file.
+   */
   int fd;
-  printf("Command: %s\n", arr[0]);
-  printf("File: %s\n", arr[index+1]);
-  printf("> or >>: %d %s\n", index, arr[index]);
+  // printf("Command: %s\n", arr[0]);
+  // printf("File: %s\n", arr[index+1]);
+  // printf("> or >>: %d %s\n", index, arr[index]);
+
+  // check if redirect symbol is > or >>. If >, write to the file. If >>, append to the file.
   if(strcmp(arr[index], ">") == 0) {
     fd = open(arr[index+1], O_CREAT | O_WRONLY, 0644);
   }
@@ -113,18 +121,21 @@ void redirect_stdout(char ** arr, int index) {
   dup(STDOUT_FILENO);
   dup2(fd, STDOUT_FILENO);
   arr[index] = NULL;
-  execvp(arr[0], arr);
-  close(fd);
+  execvp(arr[0], arr); // execute redirection
+  close(fd); // close file
 }
 
 void redirect_stdin(char ** arr, int index) {
+  /*
+   * Takes in the command and redirects text file in to stdin.
+   */
   int fd;
-  printf("Command: %s\n", arr[0]);
-  printf("File: %s\n", arr[index+1]);
+  // printf("Command: %s\n", arr[0]);
+  // printf("File: %s\n", arr[index+1]);
   fd = open(arr[index+1], O_RDONLY);
   dup(STDIN_FILENO);
   dup2(fd, STDIN_FILENO);
   arr[index] = NULL;
-  execvp(arr[0], arr);
-  close(fd);
+  execvp(arr[0], arr); // execute redirection
+  close(fd); // close file
 }
