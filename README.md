@@ -11,7 +11,11 @@
 
 ## Features
 - Unlimited command chains using semicolons
-- shell
+- shell command prompt
+- cd
+- exit
+- redirecting into a file, > and >>
+- redirecting stdin
 
 ## Attempted Features
 
