@@ -18,3 +18,5 @@ char * strip( char * string);
 void redirect_stdout(char ** arr, int index);
 
 void redirect_stdin(char ** arr, int index);
+
+void piping(char ** arr, int index);

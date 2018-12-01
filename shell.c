@@ -39,7 +39,7 @@ char ** parse_args( char * line, char * delimiter ) {
 
         // increment to find if there is a redirect symbol in the command
         int index;
-        for(index = 0; array[index] != NULL && (strcmp(array[index], ">") != 0 && strcmp(array[index], ">>") != 0 && strcmp(array[index], "<") != 0 && strcmp(array[index], "<<") != 0); index++);
+        for(index = 0; array[index] != NULL && (strcmp(array[index], ">") != 0 && strcmp(array[index], ">>") != 0 && strcmp(array[index], "<") != 0 && strcmp(array[index], "|") != 0); index++);
 
         if (id == 0){
           // if it is a redirection command, leave it to respective functions
@@ -48,6 +48,9 @@ char ** parse_args( char * line, char * delimiter ) {
           }
           else if(array[index] != NULL && (strstr(array[index], "<") || (strstr(array[index], "<<")))) {
             redirect_stdin(array, index);
+          }
+          else if(array[index] != NULL && (strstr(array[index], "|"))) {
+            piping(array, index);
           }
           else {
             execvp(array[0], array); //run ze process
@@ -138,4 +141,8 @@ void redirect_stdin(char ** arr, int index) {
   arr[index] = NULL;
   execvp(arr[0], arr); // execute redirection
   close(fd); // close file
+}
+
+void piping(char ** arr, int index) {
+  return;
 }
