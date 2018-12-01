@@ -144,5 +144,20 @@ void redirect_stdin(char ** arr, int index) {
 }
 
 void piping(char ** arr, int index) {
+  int fds[2];
+  if(pipe(fds) == -1) {
+    printf("pipe error: %s\n", strerror(errno));
+  }
+  int f = fork();
+  if(f) {
+    close(fds[READ]);
+  //   dup2(fds[WRITE], STDOUT_FILENO);
+  //   execvp(arr[0], arr);
+  }
+  else {
+    close(fds[WRITE]);
+  //   dup2(fds[READ], STDIN_FILENO);
+  //   execvp(arr[0], arr);
+  }
   return;
 }

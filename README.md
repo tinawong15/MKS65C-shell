@@ -20,6 +20,7 @@
 ## Attempted Features
 
 ## Bugs
+- When you give the shell an empty command, a command prompt will appear on the next line, but if the command typed on that line is exit, it will not execute.
 
 ## Function Headers
 - `char * strip( char * string)`

@@ -11,6 +11,9 @@
 #include <sys/types.h>
 #include <pwd.h>
 
+#define READ 0
+#define WRITE 1
+
 char ** parse_args( char * line, char * delimiter );
 
 char * strip( char * string);
