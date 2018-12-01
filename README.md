@@ -10,20 +10,19 @@
 - [ ] Implement simple pipes
 
 ## Features
-- Unlimited command chains using semicolons
+- Unlimited command chains using semicolons, regardless of spacing
 - shell command prompt
 - cd
 - exit
-- redirecting into a file, > and >>
-- redirecting stdin
+- redirecting into a file (> and >>)
+- redirecting stdin (<)
 
 ## Attempted Features
 
 ## Bugs
 
 ## Function Headers
-- `int arrlength(char ** array)`
-- `int parse_command(char *line)`
-- `char** parse_args( char * line)`
+- `char * strip( char * string)`
+- `char ** parse_args( char * line, char * delimiter )`
 - `void redirect_stdout(char ** arr, int index)`
 - `void redirect_stdin(char ** arr, int index)`
