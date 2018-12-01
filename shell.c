@@ -8,12 +8,11 @@ char ** parse_args( char * line, char * delimiter ) {
   char ** array = calloc(256, sizeof(char *)); //mem issues
   int index = 0;
   int id;
-
+  int i = 0;
   // strip the line of trailing and leading whitespace
   line = strip(line);
   char * ptr = line;
   char * back_ptr;
-
   // printf("ptr:%s\n", ptr);
   while (ptr && index < 256) {
     if (strcmp(delimiter, ";") == 0 ){
@@ -22,8 +21,6 @@ char ** parse_args( char * line, char * delimiter ) {
       back_ptr = strip(back_ptr);
       // printf("Back pointer: %s Ptr: %s\n", back_ptr, ptr);
       array = parse_args(back_ptr, " ");
-      // printf("Array[0]: %s array[1]: %s array[2]: %s\n", array[0], array[1], array[2]);
-
       // Account for exit and cd
       if (strcmp(array[0], "exit") == 0) {
         return NULL;
@@ -38,8 +35,20 @@ char ** parse_args( char * line, char * delimiter ) {
       else{
         // have a child process run the command
         id = fork();
+        // printf("Array[0]: %s array[1]: %s array[2]: %s\n", array[0], array[1], array[2]);
+        int index;
+        for(index = 0; array[index] != NULL && strcmp(array[index], ">") != 0; index++);
+
         if (id == 0){
-          execvp(array[0], array); //run ze process
+          if(array[index] != NULL && (strstr(array[index], ">") || (strstr(array[index], ">>")))) {
+            redirect_stdout(array, index);
+          }
+          else if(array[index] != NULL && (strstr(array[index], "<") || (strstr(array[index], "<<")))) {
+            redirect_stdin(array, index);
+          }
+          else {
+            execvp(array[0], array); //run ze process
+          }
         }
         // wait for the child process to finish before proceeding
         int status;
@@ -84,4 +93,38 @@ char * strip( char * string){
 
    arr_string[end_index+1] = 0;
    return start_ptr;
+}
+
+
+void redirect_stdout(char ** arr, int index) {
+  int fd;
+  printf("Command: %s\n", arr[0]);
+  printf("File: %s\n", arr[index+1]);
+  printf("> or >>: %d %s\n", index, arr[index]);
+  if(strcmp(arr[index], ">") == 0) {
+    fd = open(arr[index+1], O_CREAT | O_WRONLY, 0644);
+  }
+  else {
+    fd = open(arr[index+1], O_CREAT | O_WRONLY | O_APPEND, 0644);
+  }
+  if(fd == -1){
+    printf("error: %s\n", strerror(errno));
+  }
+  dup(STDOUT_FILENO);
+  dup2(fd, STDOUT_FILENO);
+  arr[index] = NULL;
+  execvp(arr[0], arr);
+  close(fd);
+}
+
+void redirect_stdin(char ** arr, int index) {
+  int fd;
+  printf("Command: %s\n", arr[0]);
+  printf("File: %s\n", arr[index+1]);
+  fd = open(arr[index+1], O_RDONLY);
+  dup(STDIN_FILENO);
+  dup2(fd, STDIN_FILENO);
+  arr[index] = NULL;
+  execvp(arr[0], arr);
+  close(fd);
 }

@@ -1,7 +1,7 @@
 # include "shell.h"
 
 int main(){
-  char line [256] = "ls";// -l    ; echo hello ; echo tina; ls -l ; echo tina wong is a cs god";
+  char line [256] = "ls -l > text.txt";// -l    ; echo hello ; echo tina; ls -l ; echo tina wong is a cs god";
   // char line [100] = "ls -l";
   // parse_command(line);
   char command[256];
@@ -30,11 +30,11 @@ int main(){
     len = strlen(command);
     command[len-1] = 0;
     strcpy(line, command);
-
     if (parse_args(line, ";") == NULL){
       return 0;
     }
    }
+  // parse_args(line, ";");
   // printf("yo\n");
   // parse_args(line, ";");
   // printf("\'%s\'\n", strip("      ls -l       "));

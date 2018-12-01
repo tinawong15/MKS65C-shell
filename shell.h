@@ -14,3 +14,7 @@
 char ** parse_args( char * line, char * delimiter );
 
 char * strip( char * string);
+
+void redirect_stdout(char ** arr, int index);
+
+void redirect_stdin(char ** arr, int index);

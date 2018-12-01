@@ -6,7 +6,7 @@
 - [X] Read a line at a time, parse the line to separate the command from its arguments. It should then fork and exec the command.
 - [X] Read and separate multiple commands on one line with ;
 - [X] Can change dirs and exit the shell
-- [ ] Implement simple redirection using > (redirecting stdout) and < (redirecting stdin)
+- [X] Implement simple redirection using > (redirecting stdout) and < (redirecting stdin)
 - [ ] Implement simple pipes
 
 ## Features
@@ -21,3 +21,5 @@
 - `int arrlength(char ** array)`
 - `int parse_command(char *line)`
 - `char** parse_args( char * line)`
+- `void redirect_stdout(char ** arr, int index)`
+- `void redirect_stdin(char ** arr, int index)`
