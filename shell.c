@@ -11,6 +11,11 @@ char ** parse_args( char * line, char * delimiter ) {
   int i = 0;
   // strip the line of trailing and leading whitespace
   line = strip(line);
+
+  if(strcmp(line, "") == 0){
+    return array;
+  }
+
   char * ptr = line;
   char * back_ptr;
   // printf("ptr:%s\n", ptr);
