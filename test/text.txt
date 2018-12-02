@@ -1,2 +1,19 @@
-test.txt
-text.txt
+README.md
+a.out
+main.c
+main.o
+makefile
+shell.c
+shell.h
+shell.o
+test
+total 112
+-rw-r--r--  1 tina  staff    952 Dec  2 12:53 README.md
+-rwxr-xr-x  1 tina  staff  14752 Dec  2 12:57 a.out
+-rw-r--r--  1 tina  staff   1112 Dec  2 10:01 main.c
+-rw-r--r--  1 tina  staff   5196 Dec  2 12:57 main.o
+-rw-r--r--  1 tina  staff    168 Dec  2 10:01 makefile
+-rw-r--r--  1 tina  staff   5055 Dec  2 12:53 shell.c
+-rw-r--r--  1 tina  staff    487 Dec  2 12:53 shell.h
+-rw-r--r--  1 tina  staff   7972 Dec  2 12:57 shell.o
+drwxr-xr-x  4 tina  staff    128 Dec  2 10:01 test

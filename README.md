@@ -21,7 +21,6 @@
 ## Attempted Features
 
 ## Bugs
-- Pipe may or may not work, depending on your operating system.
 
 ## Function Headers
 - `char * strip( char * string)`
