@@ -7,7 +7,7 @@
 - [X] Read and separate multiple commands on one line with ;
 - [X] Can change dirs and exit the shell
 - [X] Implement simple redirection using > (redirecting stdout) and < (redirecting stdin)
-- [ ] Implement simple pipes
+- [X] Implement simple pipes
 
 ## Features
 - Unlimited command chains using semicolons, regardless of spacing
@@ -16,6 +16,7 @@
 - exit
 - redirecting into a file (> and >>)
 - redirecting stdin (<)
+- Can chain pipes
 
 ## Attempted Features
 
