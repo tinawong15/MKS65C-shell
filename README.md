@@ -21,10 +21,11 @@
 ## Attempted Features
 
 ## Bugs
-
+- Pipe may or may not work, depending on your operating system.
 
 ## Function Headers
 - `char * strip( char * string)`
 - `char ** parse_args( char * line, char * delimiter )`
 - `void redirect_stdout(char ** arr, int index)`
 - `void redirect_stdin(char ** arr, int index)`
+- `void piping(char ** arr, int index)`
