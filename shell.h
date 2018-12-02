@@ -8,8 +8,6 @@
 #include <string.h>
 #include <sys/wait.h>
 #include <signal.h>
-#include <sys/types.h>
-#include <pwd.h>
 
 #define WRITE 0
 #define READ 1

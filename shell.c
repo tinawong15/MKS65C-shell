@@ -2,8 +2,11 @@
 
 char ** parse_args( char * line, char * delimiter ) {
   /*
-   * Processes the line.
+   * Processes the line, including pipes and redirects.
    * Ignores whitespace.
+   *
+   * Takes in parameters line, which is a terminal command, and a delimiter, with which parse_args strseps by.
+   * Returns an array derived from the line using strsep.
    */
   char ** array = calloc(256, sizeof(char *)); //mem issues
   int index = 0;
@@ -28,6 +31,7 @@ char ** parse_args( char * line, char * delimiter ) {
       array = parse_args(back_ptr, " ");
       // Account for exit and cd
       if (strcmp(array[0], "exit") == 0) {
+        free(array);
         return NULL;
       }
       // if cd
@@ -58,7 +62,9 @@ char ** parse_args( char * line, char * delimiter ) {
             piping(array, index);
           }
           else {
-            execvp(array[0], array); //run ze process
+            if (execvp(array[0], array) == -1){ //run ze process
+              printf("%s\n", strerror(errno));
+            }
           }
         }
         // wait for the child process to finish before proceeding
@@ -80,6 +86,9 @@ char ** parse_args( char * line, char * delimiter ) {
 char * strip( char * string){
   /*
    * Strips leading and trailing whitespace.
+   *
+   * Takes in a string.
+   * Returns a char array that has been stripped of leading/trailing whitespace.
    */
    // Make the string mutable
    char * arr_string = calloc(256, sizeof(char));
@@ -110,11 +119,11 @@ char * strip( char * string){
 void redirect_stdout(char ** arr, int index) {
   /*
    * Takes in the command and executes redirection into a text file.
+   *
+   * Takes in an array of strings, and an index such that array[index] points to the > or >> symbol.
+   * Executes the redirect, deos not return.
    */
   int fd;
-  // printf("Command: %s\n", arr[0]);
-  // printf("File: %s\n", arr[index+1]);
-  // printf("> or >>: %d %s\n", index, arr[index]);
 
   // check if redirect symbol is > or >>. If >, write to the file. If >>, append to the file.
   if(strcmp(arr[index], ">") == 0) {
@@ -129,35 +138,46 @@ void redirect_stdout(char ** arr, int index) {
   dup(STDOUT_FILENO);
   dup2(fd, STDOUT_FILENO);
   arr[index] = NULL;
-  execvp(arr[0], arr); // execute redirection
+  if (execvp(arr[0], arr) == -1){ // execute redirection
+    printf("%s\n", strerror(errno));
+  }
   close(fd); // close file
 }
 
 void redirect_stdin(char ** arr, int index) {
   /*
    * Takes in the command and redirects text file in to stdin.
+   *
+   * Takes in an array of strings, and an index such that array[index] points to the < symbol.
+   * Executes the redirect, deos not return.
    */
   int fd;
-  // printf("Command: %s\n", arr[0]);
-  // printf("File: %s\n", arr[index+1]);
   fd = open(arr[index+1], O_RDONLY);
   dup(STDIN_FILENO);
   dup2(fd, STDIN_FILENO);
   arr[index] = NULL;
-  execvp(arr[0], arr); // execute redirection
+  if (execvp(arr[0], arr) == -1){ // execute redirection
+    printf("%s\n", strerror(errno));
+  }
   close(fd); // close file
 }
 
 void piping(char ** arr, int index) {
+  /*
+   * Takes in the command and executes piping.
+   *
+   * Takes in an array of strings, and an index such that array[index] points to the < symbol.
+   * Executes the pipe, deos not return.
+   */
   int fds[] = {0,0};
-  // printf("| ?: %s\n", arr[index]);
   if(pipe(fds) == -1) {
     printf("pipe error: %s\n", strerror(errno));
   }
-  // config pipe
 
+  // config pipe
   int alt_stdout = dup(STDOUT_FILENO);
   int f = fork();
+
   // subchild process
   if(f == 0) {
     // set up the redirection
@@ -166,7 +186,9 @@ void piping(char ** arr, int index) {
     close(fds[READ]);
     close(fds[WRITE]);
     arr[index] = NULL;
-    execvp(arr[0], arr);
+    if (execvp(arr[0], arr) == -1){ // execute
+      printf("%s\n", strerror(errno));
+    }
   }
   // child process
   else {
@@ -180,6 +202,9 @@ void piping(char ** arr, int index) {
       secondary_arr[i - (index+1)] = arr[i];
       //printf("secondary_arr[%d]: %s \n", i - (index+1), secondary_arr[i - (index+1)]);
     }
-    execvp(secondary_arr[0], secondary_arr);
+    free(arr);
+    if (execvp(secondary_arr[0], secondary_arr) == -1){
+      printf("%s\n", strerror(errno));
+    }
   }
 }

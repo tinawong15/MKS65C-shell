@@ -21,6 +21,7 @@
 ## Attempted Features
 
 ## Bugs
+- If you make a typo (such as `cd..` instead of `cd ..`), exit won't work on the next line.
 
 ## Function Headers
 - `char * strip( char * string)`
@@ -28,3 +29,4 @@
 - `void redirect_stdout(char ** arr, int index)`
 - `void redirect_stdin(char ** arr, int index)`
 - `void piping(char ** arr, int index)`
+- `char * get_hostname()`

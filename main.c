@@ -1,23 +1,17 @@
 # include "shell.h"
+# include "prompt.h"
 
 int main(){
-  char line [256] = "ls -l > text.txt";// -l    ; echo hello ; echo tina; ls -l ; echo tina wong is a cs god";
-  // char line [100] = "ls -l";
-  // parse_command(line);
+  char line [256] = "ls -l > text.txt";
   char command[256];
   int status;
 
-  char hostname[256];
-  char cwd[256];
-  getcwd(cwd, sizeof(cwd));
-  hostname[255] = '\0';
-  gethostname(hostname, 255);
-  char *hostname_split = hostname;
-  strsep(&hostname_split, ".");
-  getcwd(cwd, sizeof(cwd));
   struct passwd *p = getpwuid(getuid());
   int len = 0;
+  char cwd[256];
+  getcwd(cwd, sizeof(cwd));
   char *cwd_split;
+  char *hostname = get_hostname();
   while(1) {
     getcwd(cwd, sizeof(cwd));
     cwd_split = cwd;
@@ -34,9 +28,5 @@ int main(){
       return 0;
     }
    }
-  // parse_args(line, ";");
-  // printf("yo\n");
-  // parse_args(line, ";");
-  // printf("\'%s\'\n", strip("      ls -l       "));
   return 0;
 }

@@ -3,12 +3,14 @@ a.out
 main.c
 main.o
 makefile
+prompt.c
+prompt.h
+prompt.o
 shell.c
 shell.h
 shell.o
 test
-total 112
--rw-r--r--  1 tina  staff    952 Dec  2 12:53 README.md
+a  staff    952 Dec  2 12:53 README.md
 -rwxr-xr-x  1 tina  staff  14752 Dec  2 12:57 a.out
 -rw-r--r--  1 tina  staff   1112 Dec  2 10:01 main.c
 -rw-r--r--  1 tina  staff   5196 Dec  2 12:57 main.o
