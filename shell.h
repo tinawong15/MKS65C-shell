@@ -11,8 +11,8 @@
 #include <sys/types.h>
 #include <pwd.h>
 
-#define READ 0
-#define WRITE 1
+#define WRITE 0
+#define READ 1
 
 char ** parse_args( char * line, char * delimiter );
 

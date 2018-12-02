@@ -150,21 +150,35 @@ void redirect_stdin(char ** arr, int index) {
 
 void piping(char ** arr, int index) {
   int fds[2];
-  printf("| ?: %s\n", arr[index]);
+  // printf("| ?: %s\n", arr[index]);
   if(pipe(fds) == -1) {
     printf("pipe error: %s\n", strerror(errno));
   }
+  // config pipe
+
+  int alt_stdout = dup(STDOUT_FILENO);
   int f = fork();
-  if(f) {
+  // subchild process
+  if(f == 0) {
+    // set up the redirection
+    // printf("stdout: %d\n", STDOUT_FILENO);
+    dup2(fds[READ], STDOUT_FILENO);
     close(fds[READ]);
-    dup2(fds[WRITE], STDOUT_FILENO);
+    close(fds[WRITE]);
     arr[index] = NULL;
     execvp(arr[0], arr);
   }
+  // child process
   else {
+    //wait(NULL);
+    dup2(fds[WRITE], STDIN_FILENO);
+    close(fds[READ]);
     close(fds[WRITE]);
-    dup2(fds[READ], STDIN_FILENO);
-    arr[index] = NULL;
-    execvp(arr[0], arr);
+    char *secondary_arr [256];
+    int i;
+    for (i = index+1; arr[i]; i++){
+      secondary_arr[i - (index+1)] = arr[i];
+    }
+    execvp(secondary_arr[0], secondary_arr);
   }
 }
