@@ -149,7 +149,7 @@ void redirect_stdin(char ** arr, int index) {
 }
 
 void piping(char ** arr, int index) {
-  int fds[2];
+  int fds[] = {0,0};
   // printf("| ?: %s\n", arr[index]);
   if(pipe(fds) == -1) {
     printf("pipe error: %s\n", strerror(errno));
