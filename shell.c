@@ -174,10 +174,11 @@ void piping(char ** arr, int index) {
     dup2(fds[WRITE], STDIN_FILENO);
     close(fds[READ]);
     close(fds[WRITE]);
-    char *secondary_arr [256];
+    char ** secondary_arr = calloc(256, sizeof(char *));
     int i;
     for (i = index+1; arr[i]; i++){
       secondary_arr[i - (index+1)] = arr[i];
+      //printf("secondary_arr[%d]: %s \n", i - (index+1), secondary_arr[i - (index+1)]);
     }
     execvp(secondary_arr[0], secondary_arr);
   }
