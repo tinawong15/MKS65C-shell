@@ -21,9 +21,9 @@ int main(){
       // printf("cwd split: %s\n", cwd_split);
       strsep(&cwd_split, "/");
     }
-    // parse_args(process, ";");
-    // printf("YERRRR\n" );
-    // printf("(shell) %s:%s %s$ ", hostname, cwd_split, p->pw_name);
+    if(isatty(STDIN_FILENO)) {
+      printf("(shell) %s:%s %s$ ", hostname, cwd_split, p->pw_name);
+    }
     fgets(command, 256, stdin);
     len = strlen(command);
     command[len-1] = 0;
